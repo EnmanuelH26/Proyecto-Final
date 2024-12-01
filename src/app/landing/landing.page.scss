@@ -1,0 +1,55 @@
+.landing-page {
+    --background: linear-gradient(to bottom, #003865, #0055a5);
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  .hero-section {
+    margin-top: 30px;
+  }
+  
+  .logo {
+    width: 150px;
+    margin: 0 auto 20px;
+  }
+  
+  .heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .subheading {
+    font-size: 18px;
+    font-style: italic;
+  }
+  
+  .info-section {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .info-section h2 {
+    font-size: 20px;
+    margin-top: 20px;
+  }
+  
+  .info-section p,
+  .info-section ul {
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: left;
+    margin: 10px 0;
+  }
+  
+  .info-section ul {
+    padding-left: 20px;
+  }
+  
+  ion-button {
+    margin-top: 20px;
+  }
+  

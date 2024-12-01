@@ -1,0 +1,99 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Menú Principal</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <!-- Noticias -->
+    <ion-item routerLink="/noticias">
+      <ion-icon name="newspaper-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Noticias</h2>
+        <p>Últimas noticias de la UASD.</p>
+      </ion-label>
+    </ion-item>
+
+    <!-- Horarios -->
+    <ion-item routerLink="/horarios">
+      <ion-icon name="calendar-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Horarios (Mis Materias)</h2>
+        <p>Consulta tu horario de clases y ubicación de aulas.</p>
+      </ion-label>
+    </ion-item>
+
+    <!-- Preselección -->
+    <ion-item routerLink="/preseleccion">
+      <ion-icon name="clipboard-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Preselección</h2>
+        <p>Preselecciona asignaturas para el próximo período académico.</p>
+      </ion-label>
+    </ion-item>
+
+    <!-- Deuda -->
+    <ion-item routerLink="/deuda">
+      <ion-icon name="cash-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Deuda</h2>
+        <p>Consulta y paga tu deuda con la universidad.</p>
+      </ion-label>
+    </ion-item>
+
+    <!-- Solicitudes -->
+    <ion-item routerLink="/solicitudes">
+      <ion-icon name="document-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Solicitudes</h2>
+        <p>Realiza solicitudes administrativas y consulta su estado.</p>
+      </ion-label>
+    </ion-item>
+
+    <!-- Mis Tareas -->
+    <ion-item routerLink="/tareas">
+      <ion-icon name="list-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Mis Tareas</h2>
+        <p>Consulta tus tareas pendientes y recibe recordatorios.</p>
+      </ion-label>
+    </ion-item>
+
+    <!-- Eventos -->
+    <ion-item routerLink="/eventos">
+      <ion-icon name="calendar-number-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Eventos</h2>
+        <p>Consulta los eventos de la UASD y sus detalles.</p>
+      </ion-label>
+    </ion-item>
+
+    <!-- Videos -->
+    <ion-item routerLink="/videos">
+      <ion-icon name="play-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Videos</h2>
+        <p>Explora videos relacionados con la institución y recursos educativos.</p>
+      </ion-label>
+    </ion-item>
+
+    <!-- Acerca de -->
+    <ion-item routerLink="/acerca-de">
+      <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Acerca de</h2>
+        <p>Conoce más sobre los desarrolladores de la aplicación.</p>
+      </ion-label>
+    </ion-item>
+
+    <!-- Salir -->
+    <ion-item (click)="logout()">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Salir</h2>
+        <p>Cierra tu sesión actual.</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

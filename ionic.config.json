@@ -1,0 +1,10 @@
+{
+  "name": "uasd",
+  "type": "angular",
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "https://uasdapi.ia3x.com"
+    }
+  ]
+}
