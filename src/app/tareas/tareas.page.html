@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Mis Tareas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Tareas Pendientes</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let tarea of tareas">
+          <ion-label>
+            <h2>{{ tarea.nombre }}</h2>
+            <p>Fecha Límite: {{ tarea.fechaLimite | date: 'shortDate' }}</p>
+          </ion-label>
+          <ion-button color="secondary" [href]="tarea.enlace" target="_blank">
+            Ir al Aula Virtual
+          </ion-button>
+          <ion-badge color="danger" *ngIf="esProximaAVencer(tarea.fechaLimite)">
+            Próxima a vencer
+          </ion-badge>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="tareas.length === 0">
+    <ion-card-header>
+      <ion-card-title>No tienes tareas pendientes</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>¡Estás al día con tus asignaciones!</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="error">
+    <ion-card-header>
+      <ion-card-title>Error</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ error }}</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-button fill="clear" routerLink="/main-menu" class="title-button"> Regresar </ion-button>
+  
+</ion-content>
