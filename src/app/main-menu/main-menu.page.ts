@@ -14,4 +14,10 @@ export class MainMenuPage {
     localStorage.removeItem('authToken'); // Si usas localStorage
     this.router.navigate(['/login']); // Redirige al login
   }
+  ngOnInit() {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      this.router.navigate(['/login']);
+    }
+  }
 }

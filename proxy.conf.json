@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "http://uasdapi.ia3x.com",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

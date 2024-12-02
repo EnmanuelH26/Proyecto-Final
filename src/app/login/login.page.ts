@@ -9,60 +9,25 @@ import { AuthService } from '../service/auth.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  loginForm: FormGroup;
-  isRecoveryModalOpen = false;
-  //recoveryForm: FormGroup;
-  
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {
-    this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-    });
-  }
+  username = '';
+  password = '';
 
+  constructor(private authService: AuthService, private router: Router) {}
 
   onLogin() {
-    if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
-  
-      this.authService.login(username, password).subscribe(
-        (response) => {
-          if (response.success) {
-            this.router.navigate(['/main-menu']);
-          } else {
-            alert(`Error: ${response.message}`);
-          }
-        },
-        (error) => {
-          console.error('Detalles del error:', error);
-          alert(`Error del servidor: ${error.status} - ${error.message}`);
+    this.authService.login(this.username, this.password).subscribe(
+      (response) => {
+        if (response.success) {
+          localStorage.setItem('authToken', response.data.authToken); // Guarda el token si lo necesitas
+          this.router.navigate(['/main-page']); // Redirige a la página principal
+        } else {
+          alert('Inicio de sesión fallido');
         }
-      );
-    }
+      },
+      (error) => {
+        console.error(error);
+        alert('Hubo un error en el inicio de sesión');
+      }
+    );
   }
-  openRecoveryModal() {
-    this.isRecoveryModalOpen = true;
-  }
-  
-  closeRecoveryModal() {
-    this.isRecoveryModalOpen = false;
-  }
-  
-  // onRecoverPassword() {
-  //   if (this.recoveryForm.valid) {
-  //     const email = this.recoveryForm.value.email;
-  //     this.authService.recoverPassword(email).subscribe(
-  //       (response) => {
-  //         alert(response.message);
-  //         this.closeRecoveryModal();
-  //       },
-  //       (error) => {
-  //         alert('Ocurrió un error al enviar el correo. Intenta nuevamente.');
-  //       }
-  //     );
-  //   }
 }

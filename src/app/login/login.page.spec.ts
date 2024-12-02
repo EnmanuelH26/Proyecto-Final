@@ -21,30 +21,4 @@ export class LoginPage {
       password: ['', Validators.required],
     });
   }
-
-  onLogin() {
-    const url = 'https://uasdapi.ia3x.com/login';
-    const body = this.loginForm.value;
-
-    this.http.post<any>(url, body).subscribe(
-      (response) => {
-        if (response.success) {
-          const authToken = response.data.authToken;
-          console.log('Auth Token:', authToken);
-
-          // Guardar token en localStorage o servicio si es necesario
-          localStorage.setItem('authToken', authToken);
-
-          // Redirigir a la página deseada
-          this.router.navigate(['/landing']);
-        } else {
-          alert('Login fallido: ' + response.message);
-        }
-      },
-      (error) => {
-        console.error('Error en el login', error);
-        alert('Error en la autenticación. Intenta de nuevo.');
-      }
-    );
-  }
 }

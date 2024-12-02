@@ -1,9 +1,10 @@
 {
   "name": "uasd",
+  "integrations": {},
   "type": "angular",
   "proxies": [
     {
-      "path": "/api",
+      "path": "/login",
       "proxyUrl": "https://uasdapi.ia3x.com"
     }
   ]
