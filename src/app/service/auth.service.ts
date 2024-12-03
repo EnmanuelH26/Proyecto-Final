@@ -1,54 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://uasdapi.ia3x.com/login'; // Actualiza aquí
+  private apiUrl = 'https://api-uasd.edu.do'; // Cambia esto por tu URL base
+  private tokenKey = 'auth_token'; // Clave para guardar el token
 
   constructor(private http: HttpClient) {}
 
+  // Método para iniciar sesión y obtener el token
   login(username: string, password: string): Observable<any> {
-    const headers = { 'Content-Type': 'application/json' };
     const payload = { username, password };
-    return this.http.post<any>(this.apiUrl, payload, {headers});
+    return this.http.post(`${this.apiUrl}/login`, payload);
   }
-  // login(username: string, password: string): Observable<any> {
-  //   // Simula la validación de credenciales
-  //   if (username === '20222086' && password === '20222086@') {
-  //     // Simula una respuesta exitosa de la API
-  //     return of({
-  //       success: true,
-  //       message: 'Login successful',
-  //       data: {
-  //         id: 0,
-  //         nombre: 'Enmanuel',
-  //         apellido: 'Hernandez Bautista',
-  //         username: '20222086',
-  //         email: '20222086@itla.edu.do',
-  //         authToken: 'simulated-jwt-token',
-  //       },
-  //       error: null,
-  //     });
-  //   } else {
-  //     // Simula una respuesta fallida
-  //     return of({
-  //       success: false,
-  //       message: 'Usuario o contraseña incorrectos.',
-  //       error: null,
-  //     });
-  //   }
-  // }
 
-  recoverPassword(email: string): Observable<any> {
-    // Simula la respuesta o realiza la solicitud real si existe un endpoint
-    return of({
-      success: true,
-      message: `Se ha enviado un correo de recuperación a ${email}`,
-    });
+  // Método para guardar el token
+  saveToken(token: string): void {
+    localStorage.setItem(this.tokenKey, token);
   }
-  
+
+  // Método para obtener el token
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  // Método para eliminar el token (por ejemplo, al cerrar sesión)
+  removeToken(): void {
+    localStorage.removeItem(this.tokenKey);
+  }
 }

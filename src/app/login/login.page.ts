@@ -1,33 +1,49 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../service/auth.service';
-
+import { Component } from '@angular/core';
+import { ToastController } from '@ionic/angular';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  username = '';
-  password = '';
+  username: string = '';
+  password: string = '';
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private toastController: ToastController
+  ) {}
 
-  constructor(private authService: AuthService, private router: Router) {}
+  async login() {
+    if (!this.username || !this.password) {
+      this.showToast('Por favor, completa todos los campos.');
+      return;
+    }
 
-  onLogin() {
-    this.authService.login(this.username, this.password).subscribe(
-      (response) => {
-        if (response.success) {
-          localStorage.setItem('authToken', response.data.authToken); // Guarda el token si lo necesitas
-          this.router.navigate(['/main-page']); // Redirige a la página principal
-        } else {
-          alert('Inicio de sesión fallido');
-        }
+    const payload = {
+      username: this.username,
+      password: this.password,
+    };
+
+    this.http.post('https://uasdapi.ia3x.com/login', payload).subscribe(
+      (response: any) => {
+        localStorage.setItem('token', response.token);
+        this.router.navigate(['/main-menu']);
       },
       (error) => {
-        console.error(error);
-        alert('Hubo un error en el inicio de sesión');
+        this.showToast('Credenciales incorrectas.');
       }
     );
+  }
+
+  async showToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      position: 'top',
+    });
+    toast.present();
   }
 }
