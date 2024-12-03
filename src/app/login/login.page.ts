@@ -31,7 +31,7 @@ export class LoginPage {
       (response: any) => {
         console.log('Login Response:', response);
 
-        if (response) {
+        if (response.success) {
           console.log("Token: " + response.data.authToken);
           localStorage.setItem('token', response.data.authToken);
           this.router.navigate(['/main-menu']);
