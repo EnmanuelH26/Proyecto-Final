@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tareas',
@@ -8,41 +9,50 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class TareasPage implements OnInit {
   tareas: any[] = [];
-  error: string | null = null;
+  loading: boolean = true;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastController: ToastController) {}
 
   ngOnInit() {
-    this.cargarTareas();
+    this.loadTareas();
   }
 
-  async cargarTareas() {
-    const apiUrl = 'https://api.uasd.edu.do/mis-tareas'; // Cambia por la URL real
-    const token = localStorage.getItem('authToken'); // Obtén el token de autenticación
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
+  async showToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      position: 'top',
     });
-
-    try {
-      const response: any = await this.http.get(apiUrl, { headers }).toPromise();
-      if (response && response.success) {
-        this.tareas = response.data;
-      } else {
-        this.error = 'Error al cargar las tareas pendientes.';
-      }
-    } catch (err) {
-      console.error(err);
-      this.error = 'No se pudo cargar las tareas.';
-    }
+    toast.present();
   }
 
-  esProximaAVencer(fechaLimite: string): boolean {
+  loadTareas() {
+    const token = localStorage.getItem('token');
+
+    this.http.get('https://uasdapi.ia3x.com/tareas', {
+      headers: { Authorization: `Bearer ${token}` },
+    }).subscribe(
+      (response: any) => {
+        console.log('API Response:', response);
+        if (Array.isArray(response)) {
+          this.tareas = response;
+        } else {
+          this.showToast('Error al cargar las tareas.');
+        }
+        this.loading = false;
+      },
+      (error) => {
+        console.error('Error al cargar tareas:', error);
+        this.showToast('Error al cargar tareas.');
+      }
+    );
+  }
+
+  // Verifica si una tarea está próxima a vencer
+  isNearDeadline(fechaVencimiento: string): boolean {
     const hoy = new Date();
-    const fechaTarea = new Date(fechaLimite);
-    const diferencia = fechaTarea.getTime() - hoy.getTime();
-    const diasRestantes = diferencia / (1000 * 60 * 60 * 24);
-    return diasRestantes <= 3; // Consideramos próximas a vencer las tareas con 3 días o menos
+    const vencimiento = new Date(fechaVencimiento);
+    const diferenciaDias = (vencimiento.getTime() - hoy.getTime()) / (1000 * 60 * 60 * 24);
+    return diferenciaDias <= 3 && diferenciaDias > 0;
   }
 }

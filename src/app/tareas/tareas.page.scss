@@ -1,16 +1,11 @@
-ion-card {
-    margin: 16px;
-  }
-  
-  ion-item {
-    --inner-padding-end: 0;
-  }
-  
-  ion-badge {
-    margin-left: 8px;
-  }
-  
-  ion-button {
-    margin-left: 16px;
-  }
-  
+ion-item[color="warning"] {
+  --background: #fff3cd;
+}
+
+ion-item[color="success"] {
+  --background: #d4edda;
+}
+
+ion-item[color="light"] {
+  --background: #f8f9fa;
+}
