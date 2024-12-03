@@ -28,11 +28,15 @@ const routes: Routes = [
   {
     path: 'tareas',
     loadChildren: () => import('./tareas/tareas.module').then( m => m.TareasPageModule)
+  },
+  {
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+  },  {
+    path: 'reset-password',
+    loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   }
-  // {
-  //   path: 'register',
-  //   loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
-  // }
+
 
 ];
 
