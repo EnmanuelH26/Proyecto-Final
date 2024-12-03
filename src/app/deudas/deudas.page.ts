@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthService } from '../service/auth.service';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-deudas',
@@ -8,41 +8,41 @@ import { AuthService } from '../service/auth.service';
   styleUrls: ['./deudas.page.scss'],
 })
 export class DeudasPage implements OnInit {
-  deuda: any = null;
-  error: string | null = null;
-  linkPago: string = 'https://pagina-de-pagos.uasd.edu.do';
+  deudas: any[] = [];
+  loading: boolean = true;
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
-  async ngOnInit() {
-    this.cargarDeuda();
+  ngOnInit() {
+    this.getDeudas();
   }
 
-  async cargarDeuda() {
-    const apiUrl = 'https://uasdapi.ia3x.com/deudas'; // Cambia a tu endpoint real
-    const token = await this.authService.getToken(); // Usar el AuthService
-
+  getDeudas() {
+    const token = localStorage.getItem('token');
     if (!token) {
-      this.error = 'El usuario no está autenticado.';
+      this.router.navigate(['/login']);
       return;
     }
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    });
+    this.http.get('https://uasdapi.ia3x.com/deudas', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).subscribe(
+      (response: any) => {
+        const token = localStorage.getItem('token');
+        console.log('Token almacenado:', token);
 
-    try {
-      const response: any = await this.http.get(apiUrl, { headers }).toPromise();
+        console.log('API Response:', response);
 
-      if (response && response.length > 0) {
-        this.deuda = response[0]; // Asignar la primera deuda (siempre que haya una)
-      } else {
-        this.error = 'No se encontró información de deuda.';
+        this.deudas = Array.isArray(response) ? response : Object.values(response);
+
+        this.loading = false;
+      },
+      (error) => {
+        console.error('Error al obtener las deudas:', error);
+        this.router.navigate(['/login']);
       }
-    } catch (err) {
-      this.error = 'No se pudo cargar la información de deuda. Intenta más tarde.';
-      console.error(err);
-    }
+    );
   }
 }

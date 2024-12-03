@@ -1,46 +1,52 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-title>Solicitudes</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+
+  <!-- Crear nueva solicitud -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Crear Nueva Solicitud</ion-card-title>
+      <ion-card-title>Crear Solicitud</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-item>
         <ion-label>Tipo de Solicitud</ion-label>
-        <ion-select placeholder="Selecciona un tipo" [(ngModel)]="solicitudSeleccionada">
+        <ion-select [(ngModel)]="nuevaSolicitud.tipo">
           <ion-select-option *ngFor="let tipo of tiposSolicitudes" [value]="tipo.codigo">
             {{ tipo.descripcion }}
           </ion-select-option>
         </ion-select>
       </ion-item>
-      <ion-button expand="block" color="primary" (click)="crearSolicitud()">
-        Crear Solicitud
-      </ion-button>
+      <ion-item>
+        <ion-label>Descripción</ion-label>
+        <ion-textarea [(ngModel)]="nuevaSolicitud.descripcion"></ion-textarea>
+      </ion-item>
+      <ion-button expand="block" (click)="crearSolicitud()">Crear</ion-button>
     </ion-card-content>
   </ion-card>
 
+  <!-- Mis solicitudes -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Mis Solicitudes</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-list>
-        <ion-item *ngFor="let solicitud of solicitudes">
+        <ion-item *ngFor="let solicitud of misSolicitudes">
           <ion-label>
-            <h2>{{ solicitud.descripcion }}</h2>
+            <h2>Tipo: {{ solicitud.tipo }}</h2>
             <p>Estado: {{ solicitud.estado }}</p>
+            <p>Fecha de Solicitud: {{ solicitud.fechaSolicitud | date }}</p>
           </ion-label>
-          <ion-badge color="success" *ngIf="solicitud.estado === 'Aprobada'">Aprobada</ion-badge>
-          <ion-badge color="warning" *ngIf="solicitud.estado === 'Pendiente'">Pendiente</ion-badge>
-          <ion-badge color="danger" *ngIf="solicitud.estado === 'Rechazada'">Rechazada</ion-badge>
+          <ion-button slot="end" color="danger" (click)="cancelarSolicitud(solicitud.id)">
+            Cancelar
+          </ion-button>
         </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
-  <ion-button fill="clear" routerLink="/main-menu" class="title-button"> Regresar </ion-button>
 </ion-content>
