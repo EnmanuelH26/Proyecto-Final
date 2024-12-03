@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-solicitudes',
@@ -8,82 +9,110 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class SolicitudesPage implements OnInit {
   tiposSolicitudes: any[] = [];
-  solicitudes: any[] = [];
-  solicitudSeleccionada: string | null = null;
-  error: string | null = null;
+  misSolicitudes: any[] = [];
+  nuevaSolicitud = {
+    tipo: '',
+    descripcion: ''
+  };
+  loading: boolean = true;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastController: ToastController) {}
 
   ngOnInit() {
-    this.cargarTiposSolicitudes();
-    this.cargarMisSolicitudes();
+    this.loadTiposSolicitudes();
+    this.loadMisSolicitudes();
   }
 
-  async cargarTiposSolicitudes() {
-    const apiUrl = 'https://api.uasd.edu.do/tipos-solicitudes'; // Cambia por la URL real
-    try {
-      const response: any = await this.http.get(apiUrl).toPromise();
-      if (response && response.success) {
-        this.tiposSolicitudes = response.data;
-      } else {
-        this.error = 'Error al cargar los tipos de solicitudes.';
-      }
-    } catch (err) {
-      console.error(err);
-      this.error = 'No se pudo cargar los tipos de solicitudes.';
-    }
-  }
-
-  async cargarMisSolicitudes() {
-    const apiUrl = 'https://api.uasd.edu.do/mis-solicitudes'; // Cambia por la URL real
-    const token = localStorage.getItem('authToken');
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
+  async showToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      position: 'top',
     });
-
-    try {
-      const response: any = await this.http.get(apiUrl, { headers }).toPromise();
-      if (response && response.success) {
-        this.solicitudes = response.data;
-      } else {
-        this.error = 'Error al cargar tus solicitudes.';
-      }
-    } catch (err) {
-      console.error(err);
-      this.error = 'No se pudo cargar tus solicitudes.';
-    }
+    toast.present();
   }
 
-  async crearSolicitud() {
-    if (!this.solicitudSeleccionada) {
-      alert('Debes seleccionar un tipo de solicitud.');
-      return;
-    }
-
-    const apiUrl = 'https://api.uasd.edu.do/crear-solicitud'; // Cambia por la URL real
-    const token = localStorage.getItem('authToken');
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    });
-
-    const body = {
-      tipo: this.solicitudSeleccionada,
-    };
-
-    try {
-      const response: any = await this.http.post(apiUrl, body, { headers }).toPromise();
-      if (response && response.success) {
-        alert('Solicitud creada exitosamente.');
-        this.cargarMisSolicitudes();
-      } else {
-        alert('Error al crear la solicitud.');
+  loadTiposSolicitudes() {
+    const token = localStorage.getItem('token');
+    this.http.get('https://uasdapi.ia3x.com/tipos_solicitudes', {
+      headers: { Authorization: `Bearer ${token}` },
+    }).subscribe(
+      (response: any) => {
+        if (response.success) {
+          this.tiposSolicitudes = response.data;
+        } else {
+          this.showToast('Error al cargar los tipos de solicitudes.');
+        }
+      },
+      (error) => {
+        console.error('Error al cargar tipos de solicitudes:', error);
+        this.showToast('Error al cargar tipos de solicitudes.');
       }
-    } catch (err) {
-      console.error(err);
-      alert('No se pudo crear la solicitud.');
-    }
+    );
+  }
+
+  loadMisSolicitudes() {
+    const token = localStorage.getItem('token');
+    this.http.get('https://uasdapi.ia3x.com/mis_solicitudes', {
+      headers: { Authorization: `Bearer ${token}` },
+    }).subscribe(
+      (response: any) => {
+        if (response.success) {
+          this.misSolicitudes = response.data;
+        } else {
+          this.showToast('Error al cargar las solicitudes.');
+        }
+      },
+      (error) => {
+        console.error('Error al cargar solicitudes:', error);
+        this.showToast('Error al cargar solicitudes.');
+      }
+    );
+  }
+
+  crearSolicitud() {
+    const token = localStorage.getItem('token');
+    this.http.post('https://uasdapi.ia3x.com/crear_solicitud', this.nuevaSolicitud, {
+      headers: { Authorization: `Bearer ${token}` },
+    }).subscribe(
+      (response: any) => {
+        if (response.success) {
+          this.showToast('Solicitud creada exitosamente.');
+          this.loadMisSolicitudes(); // Recargar solicitudes
+          this.nuevaSolicitud = { tipo: '', descripcion: '' }; // Limpiar el formulario
+        } else {
+          this.showToast('Error al crear la solicitud.');
+        }
+      },
+      (error) => {
+        console.error('Error al crear solicitud:', error);
+        this.showToast('Error al crear solicitud.');
+      }
+    );
+  }
+
+  cancelarSolicitud(id: number) {
+    const token = localStorage.getItem('token');
+  
+    this.http.post('https://uasdapi.ia3x.com/cancelar_solicitud', id, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json', // Asegúrate de definir el tipo de contenido
+      },
+      responseType: 'json',
+    }).subscribe(
+      (response: any) => {
+        if (response.success) {
+          this.showToast('Solicitud cancelada exitosamente.');
+          this.loadMisSolicitudes(); // Recargar solicitudes
+        } else {
+          this.showToast('Error al cancelar la solicitud.');
+        }
+      },
+      (error) => {
+        console.error('Error al cancelar solicitud:', error);
+        this.showToast('Error al cancelar solicitud.');
+      }
+    );
   }
 }
