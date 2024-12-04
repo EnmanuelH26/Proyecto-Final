@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Preselección de Materias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-spinner *ngIf="loading"></ion-spinner>
+
+  <!-- Materias Disponibles -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Materias Disponibles</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let materia of materiasDisponibles">
+          <ion-label>
+            <h2>{{ materia.nombre }} ({{ materia.codigo }})</h2>
+            <p>Horario: {{ materia.horario }}</p>
+            <p>Aula: {{ materia.aula }}</p>
+          </ion-label>
+          <ion-button slot="end" color="primary" (click)="preseleccionarMateria(materia.codigo)">
+            Preseleccionar
+          </ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Materias Preseleccionadas -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Mis Preselecciones</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let materia of materiasPreseleccionadas">
+          <ion-label>
+            <h2>{{ materia.nombre }} ({{ materia.codigo }})</h2>
+            <p>Aula: {{ materia.aula }}</p>
+            <p>Estado: {{ materia.confirmada ? 'Confirmada' : 'Pendiente' }}</p>
+          </ion-label>
+          <ion-button slot="end" color="danger" (click)="cancelarPreseleccion(materia.codigo)">
+            Cancelar
+          </ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <ion-button fill="outline" color="medium" [routerLink]="['/main-menu']">Regresar</ion-button>
+
+</ion-content>

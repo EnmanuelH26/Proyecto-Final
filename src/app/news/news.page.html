@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Noticias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Spinner de carga -->
+  <div *ngIf="loading" class="loading">
+    <ion-spinner></ion-spinner>
+    <p>Cargando noticias...</p>
+  </div>
+
+  <!-- Mensaje si no hay noticias -->
+  <div *ngIf="!loading && news.length === 0" class="no-news">
+    <ion-text color="medium">
+      <p>No hay noticias disponibles en este momento.</p>
+    </ion-text>
+  </div>
+
+  <!-- Lista de noticias -->
+  <ion-list *ngIf="!loading && news.length > 0">
+    <ion-item *ngFor="let item of news">
+      <ion-thumbnail slot="start">
+        <img [src]="item.img" alt="Imagen de la noticia" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ item.title }}</h2>
+        <p>{{ item.date }}</p>
+      </ion-label>
+      <ion-button fill="outline" slot="end" color="primary" (click)="openNews(item.url)">
+        Leer más
+      </ion-button>
+    </ion-item>
+  </ion-list>
+  <ion-button fill="outline" color="medium" [routerLink]="['/main-menu']">Regresar</ion-button>
+</ion-content>
+
+  

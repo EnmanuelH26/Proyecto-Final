@@ -49,7 +49,15 @@ const routes: Routes = [
     path: 'videos',
     loadChildren: () => import('./videos/videos.module').then( m => m.VideosPageModule)
   }
-
+  ,
+  {
+    path: 'news',
+    loadChildren: () => import('./news/news.module').then( m => m.NewsPageModule)
+  },
+  {
+    path: 'preseleccion',
+    loadChildren: () => import('./preseleccion/preseleccion.module').then( m => m.PreseleccionPageModule)
+  }
 
 
 ];
