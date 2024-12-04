@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Horarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+
+  <ion-list *ngIf="!loading">
+    <ion-item *ngFor="let horario of horarios">
+      <ion-label>
+        <h2>{{ horario.materia }}</h2>
+        <p>Aula: {{ horario.aula }}</p>
+        <p>Fecha y Hora: {{ formatDate(horario.fechaHora) }}</p>
+        <p>Ubicación: {{ horario.ubicacion }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <div class="button-container">
+    <ion-button fill="solid" color="primary" [routerLink]="['/main-menu']">
+      <ion-icon slot="start" name="arrow-back"></ion-icon>
+      Regresar
+    </ion-button>
+  </div>
+  
+</ion-content>

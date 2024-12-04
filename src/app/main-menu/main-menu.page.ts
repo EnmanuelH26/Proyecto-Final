@@ -14,7 +14,7 @@ export class MainMenuPage {
     this.router.navigate(['/login']); 
   }
   ngOnInit() {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (!token) {
       this.router.navigate(['/login']);
     }

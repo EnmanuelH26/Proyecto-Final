@@ -1,22 +1,45 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Deudas</ion-title>
-  </ion-toolbar>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-spinner *ngIf="loading"></ion-spinner>
+  <!-- Indicador de carga -->
+  <div class="loading-container" *ngIf="loading">
+    <ion-spinner></ion-spinner>
+    <p>Cargando deudas, por favor espera...</p>
+  </div>
+
+  <!-- Lista de deudas -->
   <ion-list *ngIf="!loading">
-    <ion-item *ngFor="let deuda of deudas">
-      <ion-label *ngIf="deuda">
+    <ion-item *ngFor="let deuda of deudas" lines="full">
+      <ion-label>
         <h2>ID: {{ deuda.id }}</h2>
         <p>Monto: {{ deuda.monto | currency }}</p>
-        <p>Pagada: {{ deuda.pagada ? 'Sí' : 'No' }}</p>
+        <p>
+          Pagada: 
+          <ion-icon
+            name="checkmark-circle"
+            color="success"
+            *ngIf="deuda.pagada"
+          ></ion-icon>
+          <ion-icon
+            name="close-circle"
+            color="danger"
+            *ngIf="!deuda.pagada"
+          ></ion-icon>
+        </p>
         <p>Fecha de Actualización: {{ deuda.fechaActualizacion | date }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
-  <ion-button fill="outline" color="medium" [routerLink]="['/main-menu']">Regresar</ion-button>
 
-  
+  <!-- Botón de regresar -->
+  <div class="button-container">
+    <ion-button fill="solid" color="primary" [routerLink]="['/main-menu']">
+      <ion-icon slot="start" name="arrow-back"></ion-icon>
+      Regresar
+    </ion-button>
+  </div>
 </ion-content>

@@ -1,11 +1,27 @@
+
 ion-item[color="warning"] {
   --background: #fff3cd;
+  --color: #856404; 
+  border-left: 4px solid #ffc107; 
 }
+
 
 ion-item[color="success"] {
-  --background: #d4edda;
+  --background: #d4edda; 
+  --color: #155724; 
+  border-left: 4px solid #28a745; 
 }
 
+
 ion-item[color="light"] {
-  --background: #f8f9fa;
+  --background: #f8f9fa; 
+  --color: #495057; 
+  border-left: 4px solid #ced4da; 
+}
+
+ion-item[color] {
+  border-radius: 8px; 
+  margin: 8px 0; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  padding-left: 16px; 
 }
