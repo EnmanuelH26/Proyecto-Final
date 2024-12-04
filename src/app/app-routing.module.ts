@@ -58,6 +58,11 @@ const routes: Routes = [
     path: 'preseleccion',
     loadChildren: () => import('./preseleccion/preseleccion.module').then( m => m.PreseleccionPageModule)
   }
+  ,
+  {
+    path: 'horarios',
+    loadChildren: () => import('./horarios/horarios.module').then( m => m.HorariosPageModule)
+  }
 
 
 ];

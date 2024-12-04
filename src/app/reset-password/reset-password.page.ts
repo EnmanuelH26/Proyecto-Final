@@ -23,7 +23,7 @@ export class ResetPasswordPage {
     }
 
     // Llamada a la API
-    this.http.post('https://uasdapi.ia3x.com/reset-password', this.resetData).subscribe(
+    this.http.post('https://uasdapi.ia3x.com/reset_password', this.resetData).subscribe(
       (response: any) => {
         if (response.success) {
           this.mensajeRespuesta = response.message; 

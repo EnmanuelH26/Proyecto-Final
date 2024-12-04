@@ -24,6 +24,10 @@
   <ion-label *ngIf="!loading && tareas.length === 0" class="ion-text-center">
     No hay tareas disponibles.
   </ion-label>
-  <ion-button fill="outline" color="medium" [routerLink]="['/main-menu']">Regresar</ion-button>
-
+  <div class="button-container">
+    <ion-button fill="solid" color="primary" [routerLink]="['/main-menu']">
+      <ion-icon slot="start" name="arrow-back"></ion-icon>
+      Regresar
+    </ion-button>
+  </div>
 </ion-content>

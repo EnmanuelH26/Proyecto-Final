@@ -1,4 +1,10 @@
-ion-spinner {
-  margin: auto;
-  display: block;
+.loading-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
