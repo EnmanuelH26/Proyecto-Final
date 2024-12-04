@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Devs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let devs of devs">
+      <ion-avatar slot="start">
+        <img [src]="devs.img" alt="{{ devs.name }}" class="dev_image"/>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ devs.name }}</h2>
+        <h3>Matricula: {{ devs.matricula }}</h3>
+        <ion-button (click)="devs.showDetails = !devs.showDetails">
+          Detalles
+        </ion-button>
+        <p *ngIf="devs.showDetails" class="bio">{{ devs.bio }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-button fill="outline" color="medium" [routerLink]="['/main-menu']">Regresar</ion-button>
+</ion-content>

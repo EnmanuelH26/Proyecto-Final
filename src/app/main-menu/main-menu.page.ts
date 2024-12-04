@@ -10,9 +10,8 @@ export class MainMenuPage {
   constructor(private router: Router) {}
 
   logout() {
-    // Borra cualquier token o estado de sesión
-    localStorage.removeItem('authToken'); // Si usas localStorage
-    this.router.navigate(['/login']); // Redirige al login
+    localStorage.removeItem('token'); //borra token
+    this.router.navigate(['/login']); 
   }
   ngOnInit() {
     const token = localStorage.getItem('authToken');

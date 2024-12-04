@@ -1,0 +1,20 @@
+ion-item {
+    --padding-start: 10px;
+  }
+  
+  ion-button {
+    margin-top: 5px;
+  }
+
+  .bio {
+    white-space: pre-line;
+  }
+
+  .dev_image {
+    object-fit: cover; 
+  }
+
+  ion-avatar {
+    width: 100px;
+    height: 100px;
+  }
