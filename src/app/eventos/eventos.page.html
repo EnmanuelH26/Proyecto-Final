@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Eventos UASD</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="loading" class="spinner-center"></ion-spinner>
+
+  <ion-list *ngIf="!loading && !eventoSeleccionado">
+    <ion-item *ngFor="let evento of eventos" (click)="verDetalles(evento)">
+      <ion-label>
+        <h2>{{ evento.titulo }}</h2>
+        <p>Fecha: {{ evento.fechaEvento | date: 'dd/MM/yyyy'}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="eventoSeleccionado" class="detalles-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ eventoSeleccionado.titulo }}</ion-card-title>
+        <ion-card-subtitle>Fecha: {{ eventoSeleccionado.fechaEvento | date: 'dd/MM/yyyy' }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Lugar: {{ eventoSeleccionado.lugar }}</p>
+        <p>{{ eventoSeleccionado.descripcion }}</p>
+      </ion-card-content>
+    </ion-card>
+    <ion-button expand="block" color="primary" (click)="cerrarDetalles()">Volver</ion-button>
+  </div>
+</ion-content>

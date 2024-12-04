@@ -10,7 +10,7 @@ export class MainMenuPage {
   constructor(private router: Router) {}
 
   logout() {
-    localStorage.removeItem('authToken'); //borra token
+    localStorage.removeItem('token'); //borra token
     this.router.navigate(['/login']); 
   }
   ngOnInit() {

@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Videos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="loading" class="spinner-center"></ion-spinner>
+
+  <ion-list *ngIf="!loading">
+    <ion-item *ngFor="let video of videos">
+      <ion-label>
+        <h2>{{ video.titulo }}</h2>
+        <p>Publicado el: {{ video.fechaPublicacion | date: 'dd/MM/yyyy' }}</p>
+        
+        <div class="video-container">
+          <iframe width="560" height="315" [src]="getEmbedUrl(video.url)" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -32,10 +32,24 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
-  },  {
+  },
+  {
     path: 'reset-password',
     loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  },
+  {
+    path: 'eventos',
+    loadChildren: () => import('./eventos/eventos.module').then( m => m.EventosPageModule)
+  },
+  {
+    path: 'info',
+    loadChildren: () => import('./info/info.module').then( m => m.InfoPageModule)
+  },
+  {
+    path: 'videos',
+    loadChildren: () => import('./videos/videos.module').then( m => m.VideosPageModule)
   }
+
 
 
 ];
